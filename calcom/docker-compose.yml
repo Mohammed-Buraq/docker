@@ -1,0 +1,28 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: caldb
+    environment:
+      POSTGRES_USER: cal
+      POSTGRES_PASSWORD: calpass
+      POSTGRES_DB: caldb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  calcom:
+    image: calcom/cal.com:latest
+    container_name: cal
+    depends_on:
+      - db
+    ports:
+      - "80:3000"
+    env_file:
+      - .env
+
+volumes:
+  pgdata:
+
